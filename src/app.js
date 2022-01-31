@@ -22,6 +22,43 @@ function formatDate(timestamp) {
 
   return `${days[day]} ${hours}:${minutes}`;
 }
+function getForecast(coord) {
+  let lat = coord.lat;
+  let lon = coord.lon;
+  APIurl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coord.lat}&lon=${coord.lon}&appid=${APIkey}&units=metric`;
+  console.log(APIurl);
+  axios.get(APIurl).then(displayForecast);
+}
+
+function displayForecast(response) {
+  console.log(response);
+  let forecastElem = document.querySelector("#forecast");
+  forecastHTML = `<div class="row">`;
+  let days = ["Friday", "Saturday", "Sunday"];
+  days.forEach(function (day) {
+    forecastHTML =
+      forecastHTML +
+      `
+              <div class="col-2">
+                <div class="weather-forecast-date">${day}</div>
+                <img
+                  src="http://openweathermap.org/img/wn/04n@2x.png"
+                  alt=""
+                  width="42"
+                />
+                <div class="weather-forecast-temp">
+                  <span class="forecast-temp-max">22</span>°
+                  <span class="forecast-temp-min">13</span>°
+                </div>
+              </div>
+            
+            `;
+  });
+  forecastHTML = forecastHTML + `</div>`;
+
+  forecastElem.innerHTML = forecastHTML;
+}
+
 function currentWeather(response) {
   // Update the HTML with new data
   let tempElem = document.querySelector("#temp-display");
@@ -45,10 +82,11 @@ function currentWeather(response) {
     `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`
   );
   iconELem.setAttribute("alt", `${response.data.weather[0].description}`);
+
+  getForecast(response.data.coord);
 }
 
 function search(city) {
-  let APIkey = "421760f2fa0cfa886ced8b96269374ed";
   let unit = "metric";
   let cityName = city;
   let APIurl = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=${unit}&appid=${APIkey}`;
@@ -78,7 +116,10 @@ function celciusConversion(event) {
   tempElem.innerHTML = Math.round(celciusTemp);
 }
 
+displayForecast();
+
 let celciusTemp = null;
+let APIkey = "421760f2fa0cfa886ced8b96269374ed";
 
 let form = document.querySelector("#search-form");
 form.addEventListener("submit", handleSubmit);
