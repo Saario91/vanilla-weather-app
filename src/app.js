@@ -31,7 +31,7 @@ function getForecast(coord) {
 }
 
 function displayForecast(response) {
-  console.log(response);
+  console.log(response.data.daily);
   let forecastElem = document.querySelector("#forecast");
   forecastHTML = `<div class="row">`;
   let days = ["Friday", "Saturday", "Sunday"];
