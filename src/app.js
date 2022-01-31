@@ -32,7 +32,9 @@ function currentWeather(response) {
   let dateElem = document.querySelector("#date-display");
   let iconELem = document.querySelector("#icon");
 
-  tempElem.innerHTML = Math.round(response.data.main.temp);
+  celciusTemp = response.data.main.temp;
+
+  tempElem.innerHTML = Math.round(celciusTemp);
   windElem.innerHTML = Math.round(response.data.wind.speed);
   humidElem.innerHTML = Math.round(response.data.main.humidity);
   descripElem.innerHTML = response.data.weather[0].description;
@@ -58,8 +60,33 @@ function handleSubmit(event) {
   let cityInput = document.querySelector("#city-input");
   search(cityInput.value);
 }
-// declarin API variables
-search("Rotterdam");
+
+function fahrenheitConversion(event) {
+  event.preventDefault();
+  celciusLink.classList.remove("active");
+  fahrenheitLink.classList.add("active");
+  let fahrenheitTemp = (celciusTemp * 5) / 9 + 32;
+  let tempElem = document.querySelector("#temp-display");
+  tempElem.innerHTML = Math.round(fahrenheitTemp);
+}
+
+function celciusConversion(event) {
+  event.preventDefault();
+  celciusLink.classList.add("active");
+  fahrenheitLink.classList.remove("active");
+  let tempElem = document.querySelector("#temp-display");
+  tempElem.innerHTML = Math.round(celciusTemp);
+}
+
+let celciusTemp = null;
 
 let form = document.querySelector("#search-form");
 form.addEventListener("submit", handleSubmit);
+
+//Unit conversion
+let fahrenheitLink = document.querySelector("#fahrenheit-link");
+fahrenheitLink.addEventListener("click", fahrenheitConversion);
+
+let celciusLink = document.querySelector("#celcius-link");
+celciusLink.addEventListener("click", celciusConversion);
+search("Rotterdam");
