@@ -42,7 +42,6 @@ function displayForecast(response) {
 
   let forecastElem = document.querySelector("#forecast");
   forecastHTML = `<div class="row">`;
-  let days = ["Friday", "Saturday", "Sunday"];
   forecast.forEach(function (forecastDay, index) {
     if (index > 0 && index < 6) {
       forecastHTML += `
@@ -115,33 +114,10 @@ function handleSubmit(event) {
   search(cityInput.value);
 }
 
-function fahrenheitConversion(event) {
-  event.preventDefault();
-  celciusLink.classList.remove("active");
-  fahrenheitLink.classList.add("active");
-  let fahrenheitTemp = (celciusTemp * 5) / 9 + 32;
-  let tempElem = document.querySelector("#temp-display");
-  tempElem.innerHTML = Math.round(fahrenheitTemp);
-}
-
-function celciusConversion(event) {
-  event.preventDefault();
-  celciusLink.classList.add("active");
-  fahrenheitLink.classList.remove("active");
-  let tempElem = document.querySelector("#temp-display");
-  tempElem.innerHTML = Math.round(celciusTemp);
-}
-
 let celciusTemp = null;
 let APIkey = "421760f2fa0cfa886ced8b96269374ed";
 
 let form = document.querySelector("#search-form");
 form.addEventListener("submit", handleSubmit);
 
-//Unit conversion
-let fahrenheitLink = document.querySelector("#fahrenheit-link");
-fahrenheitLink.addEventListener("click", fahrenheitConversion);
-
-let celciusLink = document.querySelector("#celcius-link");
-celciusLink.addEventListener("click", celciusConversion);
 search("Rotterdam");
