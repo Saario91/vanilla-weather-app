@@ -10,6 +10,15 @@ function formatDate(timestamp) {
   if (hours < 10) {
     hours = `0${hours}`;
   }
+  let days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
 
   return `${days[day]} ${hours}:${minutes}`;
 }
@@ -35,35 +44,22 @@ function currentWeather(response) {
   );
   iconELem.setAttribute("alt", `${response.data.weather[0].description}`);
 }
+
+function search(city) {
+  let APIkey = "421760f2fa0cfa886ced8b96269374ed";
+  let unit = "metric";
+  let cityName = city;
+  let APIurl = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=${unit}&appid=${APIkey}`;
+  axios.get(APIurl).then(currentWeather);
+}
+
+function handleSubmit(event) {
+  event.preventDefault();
+  let cityInput = document.querySelector("#city-input");
+  search(cityInput.value);
+}
 // declarin API variables
-let APIkey = "421760f2fa0cfa886ced8b96269374ed";
-let unit = "metric";
-let cityName = "Rotterdam";
-let APIurl = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=${unit}&appid=${APIkey}`;
+search("Rotterdam");
 
-// Declaring time variables
-let months = [
-  "January",
-  "Februari",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
-let days = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-];
-
-axios.get(APIurl).then(currentWeather);
+let form = document.querySelector("#search-form");
+form.addEventListener("submit", handleSubmit);
