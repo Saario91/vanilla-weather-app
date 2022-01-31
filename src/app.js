@@ -21,6 +21,7 @@ function currentWeather(response) {
   let descripElem = document.querySelector("#descrip-display");
   let nameElem = document.querySelector("#city-name");
   let dateElem = document.querySelector("#date-display");
+  let iconELem = document.querySelector("#icon");
 
   tempElem.innerHTML = Math.round(response.data.main.temp);
   windElem.innerHTML = Math.round(response.data.wind.speed);
@@ -28,9 +29,11 @@ function currentWeather(response) {
   descripElem.innerHTML = response.data.weather[0].description;
   nameElem.innerHTML = response.data.name;
   dateElem.innerHTML = formatDate(response.data.dt * 1000);
-
-  // Update date and time
-  new Date(response.data.dt * 1000);
+  iconELem.setAttribute(
+    "src",
+    `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`
+  );
+  iconELem.setAttribute("alt", `${response.data.weather[0].description}`);
 }
 // declarin API variables
 let APIkey = "421760f2fa0cfa886ced8b96269374ed";
